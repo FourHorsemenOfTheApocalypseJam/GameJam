@@ -38,11 +38,11 @@ public class MotorController : MonoBehaviour
 
             if (Input.GetAxis("Vertical") > 0)
             {
-                player.Move(new Vector3(horizontalMove * 1, 0, verticalMove) * (speed * Time.deltaTime));
+                player.Move(new Vector3(horizontalMove * 2, 0, verticalMove) * (speed * Time.deltaTime));
             }
             if (Input.GetKey(KeyCode.D))
             {
-                transform.rotation = Quaternion.Euler(0, 30, 0);
+                transform.rotation = Quaternion.Euler(0, 20, 0);
             }
             if (Input.GetKeyUp(KeyCode.D))
             {
@@ -50,7 +50,7 @@ public class MotorController : MonoBehaviour
             }
             if (Input.GetKey(KeyCode.A))
             {
-                transform.rotation = Quaternion.Euler(0, -30, 0);
+                transform.rotation = Quaternion.Euler(0, -20, 0);
             }
             if (Input.GetKeyUp(KeyCode.A))
             {
@@ -71,7 +71,7 @@ public class MotorController : MonoBehaviour
 
     IEnumerator GameOver()
     {
-        yield return new WaitForSecondsRealtime(5f);
+        yield return new WaitForSecondsRealtime(3.5f);
         uiManager.GameOver();
 
     }
