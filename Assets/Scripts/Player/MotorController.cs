@@ -9,7 +9,12 @@ public class MotorController : MonoBehaviour
     CharacterController player;
     public float speed;
     public float move;
-    bool checkLeftOrRigth = false;
+    public float wheelRotateSpeed;
+
+    public GameObject solOn;
+    public GameObject sagOn;
+    public GameObject solArka;
+    public GameObject sagArka;
 
     private void Start()
     {
@@ -23,38 +28,20 @@ public class MotorController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        player.Move(new Vector3(horizontalMove*1, 0, 0.5f)*(speed*Time.deltaTime));
+        player.Move(new Vector3(horizontalMove*1, 0, .1f)*(speed*Time.deltaTime));
+        solOn.transform.Rotate(wheelRotateSpeed, 0, 0);
+        solArka.transform.Rotate(wheelRotateSpeed, 0, 0);
+        sagArka.transform.Rotate(wheelRotateSpeed, 0, 0);
+        sagOn.transform.Rotate(wheelRotateSpeed, 0, 0);
 
         if (Input.GetAxis("Vertical")>0)
         {
-            player.Move(new Vector3(horizontalMove, 0, verticalMove+2) * (speed * Time.deltaTime));
-        }        
-        if (Input.GetAxis("Horizontal") < 0 && !checkLeftOrRigth)
-        {
-            Debug.Log("left");
-            player.transform.Rotate(0, 0, move * Time.deltaTime);
-            player.Move(new Vector3(horizontalMove - 1, 0, verticalMove) * (speed * Time.deltaTime));
-        }
-
-        if (Input.GetAxis("Horizontal") > 0 && !checkLeftOrRigth)
-        {
-            Debug.Log("rigth");
-            player.transform.Rotate(0, 0, -move * Time.deltaTime);
-            player.Move(new Vector3(horizontalMove +1, 0, verticalMove) * (speed * Time.deltaTime));
-        }
+            player.Move(new Vector3(horizontalMove, 0, verticalMove+1) * (speed * Time.deltaTime));
+            solOn.transform.Rotate(wheelRotateSpeed+2, 0, 0);
+            solArka.transform.Rotate(wheelRotateSpeed+2, 0, 0);
+            sagArka.transform.Rotate(wheelRotateSpeed+2, 0, 0);
+            sagOn.transform.Rotate(wheelRotateSpeed+2, 0, 0);
+        }     
     }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Collider"))
-        {
-            checkLeftOrRigth = true;             
-        }
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.tag=="Collider")
-        {
-            checkLeftOrRigth = false;
-        }
-    }
+    
 }

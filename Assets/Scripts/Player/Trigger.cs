@@ -14,7 +14,7 @@ public class Trigger : MonoBehaviour
         if (other.CompareTag("Terrain"))
         {
             Debug.Log("GameOver");
-            uiManager.GameOver();
+            //uiManager.GameOver();
         }
     }
 }
