@@ -33,10 +33,12 @@ public class CarController : MonoBehaviour
     private void FixedUpdate()
     {
         GetInput();
-        //HandleMotor();
+        HandleMotor();
         HandleSteering();
         UpdateWheels();
+
         player.Move(new Vector3(horizontalInput * 1, 0, 1f) * (speed * Time.deltaTime));
+
         if (Input.GetKey(KeyCode.W))
         {
             player.Move(new Vector3(horizontalInput, 0, verticalInput + 1) * (speed * Time.deltaTime));
