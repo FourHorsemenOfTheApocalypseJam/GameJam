@@ -38,6 +38,10 @@ public class UIManager : MonoBehaviour
         //    GameOver();
         //}   
     }
+    private void Start()
+    {
+        Time.timeScale = 0;
+    }
 
     public void StartButton()
     {

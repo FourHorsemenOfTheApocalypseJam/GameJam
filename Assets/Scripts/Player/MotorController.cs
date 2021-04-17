@@ -4,38 +4,57 @@ using UnityEngine;
 
 public class MotorController : MonoBehaviour
 {
-    float horizontalMove;
+    public float horizontalMove;
     float verticalMove;
-    CharacterController playerController;
+    CharacterController player;
     public float speed;
     public float move;
+    bool checkLeftOrRigth = false;
 
     private void Start()
     {
-        playerController = GetComponent<CharacterController>();        
+        player = GetComponent<CharacterController>();        
     }
     private void Update()
     {
         horizontalMove = Input.GetAxis("Horizontal");
-        verticalMove = Input.GetAxis("Vertical");
-        playerController.transform.Rotate(0, 0, 0);
-       
+        verticalMove = Input.GetAxis("Vertical");      
         
     }
     private void FixedUpdate()
     {
-        playerController.Move(new Vector3(horizontalMove*1, 0, verticalMove)*(speed*Time.deltaTime));
+        player.Move(new Vector3(horizontalMove*1, 0, 0.5f)*(speed*Time.deltaTime));
 
-        if (Input.GetAxis("Horizontal") < 0)
+        if (Input.GetAxis("Vertical")>0)
         {
-            Debug.Log("sol");
-            playerController.transform.Rotate(0, 0, move * Time.deltaTime);            
+            player.Move(new Vector3(horizontalMove, 0, verticalMove+2) * (speed * Time.deltaTime));
+        }        
+        if (Input.GetAxis("Horizontal") < 0 && !checkLeftOrRigth)
+        {
+            Debug.Log("left");
+            player.transform.Rotate(0, 0, move * Time.deltaTime);
+            player.Move(new Vector3(horizontalMove - 1, 0, verticalMove) * (speed * Time.deltaTime));
         }
 
-        if (Input.GetAxis("Horizontal") > 0)
+        if (Input.GetAxis("Horizontal") > 0 && !checkLeftOrRigth)
         {
-            Debug.Log("sağ");
-            playerController.transform.Rotate(0, 0, -move * Time.deltaTime);
+            Debug.Log("rigth");
+            player.transform.Rotate(0, 0, -move * Time.deltaTime);
+            player.Move(new Vector3(horizontalMove +1, 0, verticalMove) * (speed * Time.deltaTime));
+        }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Collider"))
+        {
+            checkLeftOrRigth = true;             
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag=="Collider")
+        {
+            checkLeftOrRigth = false;
         }
     }
 }
