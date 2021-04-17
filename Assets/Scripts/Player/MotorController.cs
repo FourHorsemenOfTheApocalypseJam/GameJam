@@ -10,16 +10,24 @@ public class MotorController : MonoBehaviour
     public float speed;
     bool gameover = false;
     UIManager uiManager;
+    Rigidbody rigidbody;
 
     private void Start()
     {
-        player = GetComponent<CharacterController>();        
+        player = GetComponent<CharacterController>();    
+        
+    }
+    private void Awake()
+    {
+        rigidbody = GetComponent<Rigidbody>();
+        uiManager = FindObjectOfType<UIManager>();
     }
     private void Update()
     {
         horizontalMove = Input.GetAxis("Horizontal");
         verticalMove = Input.GetAxis("Vertical");
-        uiManager = FindObjectOfType<UIManager>();
+        
+        
         
     }
     private void FixedUpdate()
@@ -55,9 +63,7 @@ public class MotorController : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Bomb"))
-        {
-            player.Move(new Vector3(0, 10, 0));
-            transform.rotation = Quaternion.Euler(-30,0,0);
+        {    
             gameover = true;
             StartCoroutine(GameOver());
         }
