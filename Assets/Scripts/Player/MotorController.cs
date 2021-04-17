@@ -7,14 +7,7 @@ public class MotorController : MonoBehaviour
     float horizontalMove;
     float verticalMove;
     CharacterController player;
-    public float speed;
-    public float move;
-    public float wheelRotateSpeed;
-
-    public GameObject solOn;
-    public GameObject sagOn;
-    public GameObject solArka;
-    public GameObject sagArka;
+    public float speed;    
 
     private void Start()
     {
@@ -35,7 +28,7 @@ public class MotorController : MonoBehaviour
         {
             player.Move(new Vector3(horizontalMove * 1, 0, verticalMove) * (speed * Time.deltaTime));            
         }
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKey(KeyCode.D))
         {
             transform.rotation = Quaternion.Euler(0, 30, 0);
         }
@@ -43,7 +36,7 @@ public class MotorController : MonoBehaviour
         {
             transform.rotation = Quaternion.Euler(0, 0, 0);
         }
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKey(KeyCode.A))
         {
             transform.rotation = Quaternion.Euler(0, -30, 0);
         }
