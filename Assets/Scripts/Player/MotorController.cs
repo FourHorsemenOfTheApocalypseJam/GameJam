@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MotorController : MonoBehaviour
 {
-    public float horizontalMove;
+    float horizontalMove;
     float verticalMove;
     CharacterController player;
     public float speed;
@@ -28,20 +28,29 @@ public class MotorController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        player.Move(new Vector3(horizontalMove*1, 0, .1f)*(speed*Time.deltaTime));
-        solOn.transform.Rotate(wheelRotateSpeed, 0, 0);
-        solArka.transform.Rotate(wheelRotateSpeed, 0, 0);
-        sagArka.transform.Rotate(wheelRotateSpeed, 0, 0);
-        sagOn.transform.Rotate(wheelRotateSpeed, 0, 0);
+        //transform.position = transform.position + new Vector3(0,0,1*Time.deltaTime);
+        player.Move(new Vector3(horizontalMove * 1, 0, 5) * (3 * Time.deltaTime));
 
         if (Input.GetAxis("Vertical")>0)
         {
-            player.Move(new Vector3(horizontalMove, 0, verticalMove+1) * (speed * Time.deltaTime));
-            solOn.transform.Rotate(wheelRotateSpeed+2, 0, 0);
-            solArka.transform.Rotate(wheelRotateSpeed+2, 0, 0);
-            sagArka.transform.Rotate(wheelRotateSpeed+2, 0, 0);
-            sagOn.transform.Rotate(wheelRotateSpeed+2, 0, 0);
-        }     
+            player.Move(new Vector3(horizontalMove * 1, 0, verticalMove) * (speed * Time.deltaTime));            
+        }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            transform.rotation = Quaternion.Euler(0, 30, 0);
+        }
+        if (Input.GetKeyUp(KeyCode.D))
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            transform.rotation = Quaternion.Euler(0, -30, 0);
+        }
+        if (Input.GetKeyUp(KeyCode.A))
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
     }
     
 }
