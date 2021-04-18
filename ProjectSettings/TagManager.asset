@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Terrain
+  - OpenParachuteArea
+  - Car
+  - Bird
   layers:
   - Default
   - TransparentFX
