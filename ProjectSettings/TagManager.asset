@@ -8,6 +8,9 @@ TagManager:
   - OpenParachuteArea
   - Car
   - Bird
+  - Collider
+  - Bomb
+  - LastCamPos
   layers:
   - Default
   - TransparentFX

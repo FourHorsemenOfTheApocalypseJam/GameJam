@@ -5,7 +5,7 @@ using UnityEngine;
 public class CarTrigger : MonoBehaviour
 {
     [SerializeField]
-    ParticleSystem particle=null;
+    ParticleSystem particle;
 
     private void Start()
     {
@@ -15,11 +15,28 @@ public class CarTrigger : MonoBehaviour
     {
         
     }
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.CompareTag("Car"))
+        if (collision.gameObject.CompareTag("Car"))
         {
+            //transform.position = GameObject.FindGameObjectWithTag("Car").transform.position; 
             particle.Play();
         }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("çarpışma" + other.tag);
+        if (other.CompareTag("Car"))
+        {
+            Debug.Log("içerde");
+            //transform.position = GameObject.FindGameObjectWithTag("Car").transform.position; 
+            other.GetComponentInParent<Takla>().TaklaAt();
+            particle.Play();
+        }
+        particle.Play();
+        GetComponent<Rigidbody>().useGravity = false;
+        GetComponent<Rigidbody>().isKinematic = true;
+        Destroy(gameObject, 1f);
+
     }
 }

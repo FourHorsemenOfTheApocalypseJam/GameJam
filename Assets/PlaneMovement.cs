@@ -36,6 +36,7 @@ public class PlaneMovement : MonoBehaviour
         {
             FindObjectOfType<PlayerFollowCamera>().CurrentPlayerState = PlayerState.Falling;
             player.SetActive(true);
+            //player.transform.position = transform.position;
             Destroy(gameObject, 10f);
             
         }
