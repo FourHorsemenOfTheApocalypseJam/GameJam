@@ -16,7 +16,7 @@ public class SkyFall : MonoBehaviour
     GameObject bone;
     float xInput = 0f;
     float yInput = 0f;
-    float horizontalAcceleration = 10f;
+    [SerializeField] float horizontalAcceleration = 10f;
     float minAcceptableVelocity = 0.05f;
     PlayerFallingAnimatorController animController;
     Animator animator;

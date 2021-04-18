@@ -10,12 +10,20 @@ public class Takla : MonoBehaviour
         rigidbody = GetComponent<Rigidbody>();
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void TaklaAt()
     {
-        if (other.CompareTag("Bomb"))
-        {
-            rigidbody.AddForce(new Vector3(0f, 45f, 0f),ForceMode.VelocityChange);
-            rigidbody.angularVelocity = new Vector3(10f,0f,0f);
-        }
+        rigidbody.constraints = RigidbodyConstraints.None;
+        rigidbody.AddForce(new Vector3(0f, 45f, 0f), ForceMode.VelocityChange);
+        rigidbody.angularVelocity = new Vector3(10f, 0f, 0f);
     }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.CompareTag("Bomb"))
+    //    {
+    //        Debug.Log("takla");
+    //        rigidbody.constraints = RigidbodyConstraints.None;
+    //        rigidbody.AddForce(new Vector3(0f, 45f, 0f),ForceMode.VelocityChange);
+    //        rigidbody.angularVelocity = new Vector3(10f,0f,0f);
+    //    }
+    //}
 }

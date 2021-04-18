@@ -8,7 +8,7 @@ public class MotorController : MonoBehaviour
     float verticalMove;
     CharacterController player;
     public float speed;
-    bool gameover = false;
+    public bool gameover = false;
     UIManager uiManager;
     Rigidbody rigidbody;
 
@@ -34,29 +34,24 @@ public class MotorController : MonoBehaviour
     {
         if (!gameover)
         {
-            player.Move(new Vector3(horizontalMove * 1, 0, 5) * (3 * Time.deltaTime));
+            player.Move(new Vector3(horizontalMove * 1f, 0f, 5f) * (3f * Time.deltaTime));
 
             if (Input.GetAxis("Vertical") > 0)
             {
-                player.Move(new Vector3(horizontalMove * 1, 0, verticalMove) * (speed * Time.deltaTime));
+                player.Move(new Vector3(horizontalMove * 1f, 0f, verticalMove) * (speed * Time.deltaTime));
             }
             if (Input.GetKey(KeyCode.D))
             {
-                transform.rotation = Quaternion.Euler(0, 20, 0);
+                transform.rotation = Quaternion.Euler(0f, 5f, 0f);  
             }
-            if (Input.GetKeyUp(KeyCode.D))
+            else if (Input.GetKey(KeyCode.A))
             {
-                transform.rotation = Quaternion.Euler(0, 0, 0);
+                transform.rotation = Quaternion.Euler(0f, -5f, 0f);
             }
-            if (Input.GetKey(KeyCode.A))
+            else
             {
-                transform.rotation = Quaternion.Euler(0, -20, 0);
+                transform.rotation = Quaternion.Euler(0f, 0f, 0f);
             }
-            if (Input.GetKeyUp(KeyCode.A))
-            {
-                transform.rotation = Quaternion.Euler(0, 0, 0);
-            }
-
         }
         
     }
