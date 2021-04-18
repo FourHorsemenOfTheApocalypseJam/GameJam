@@ -127,6 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialSpeed: {x: 0, y: -5, z: 0}
+  bombSpeed: 20
 --- !u!135 &1221227026047629352
 SphereCollider:
   m_ObjectHideFlags: 0

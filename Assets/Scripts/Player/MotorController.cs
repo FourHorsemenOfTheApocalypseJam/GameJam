@@ -14,8 +14,8 @@ public class MotorController : MonoBehaviour
 
     private void Start()
     {
-        player = GetComponent<CharacterController>();    
-        
+        player = GetComponent<CharacterController>();
+
     }
     private void Awake()
     {
@@ -26,15 +26,15 @@ public class MotorController : MonoBehaviour
     {
         horizontalMove = Input.GetAxis("Horizontal");
         verticalMove = Input.GetAxis("Vertical");
-        
-        
-        
+
+
+
     }
     private void FixedUpdate()
     {
         if (!gameover)
         {
-            player.Move(new Vector3(horizontalMove * 1f, 0f, 5f) * (3f * Time.deltaTime));
+            player.Move(new Vector3(horizontalMove * 1f, 0f, 5f) * (20f * Time.deltaTime));
 
             if (Input.GetAxis("Vertical") > 0)
             {
@@ -42,7 +42,7 @@ public class MotorController : MonoBehaviour
             }
             if (Input.GetKey(KeyCode.D))
             {
-                transform.rotation = Quaternion.Euler(0f, 5f, 0f);  
+                transform.rotation = Quaternion.Euler(0f, 5f, 0f);
             }
             else if (Input.GetKey(KeyCode.A))
             {
@@ -53,12 +53,12 @@ public class MotorController : MonoBehaviour
                 transform.rotation = Quaternion.Euler(0f, 0f, 0f);
             }
         }
-        
+
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Bomb"))
-        {    
+        {
             gameover = true;
             StartCoroutine(GameOver());
         }

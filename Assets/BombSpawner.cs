@@ -25,7 +25,6 @@ public class BombSpawner : MonoBehaviour
         // SONRADAN SİLİNİCEK
         IsBombing = true;
     }
-
     public bool IsBombing
     {
         get

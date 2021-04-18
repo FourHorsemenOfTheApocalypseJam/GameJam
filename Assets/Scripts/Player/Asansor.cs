@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Animations;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 public class Asansor : MonoBehaviour
 {
@@ -49,5 +49,6 @@ public class Asansor : MonoBehaviour
         player.transform.DOMove(GameObject.Find("3rd Point").transform.position, 1f);
         yield return new WaitForSeconds(1f);
         player.SetActive(false);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }

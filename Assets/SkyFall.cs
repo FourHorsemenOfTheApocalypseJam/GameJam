@@ -152,7 +152,7 @@ public class SkyFall : MonoBehaviour
     IEnumerator ParasutSFX()
     {
         yield return new WaitForSecondsRealtime(1.2f);
-        parasutSFX.Play();
+        //parasutSFX.Play();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -179,6 +179,7 @@ public class SkyFall : MonoBehaviour
     IEnumerator GetInCar()
     {
         animController.Land();
+        StartCoroutine(NexxtLevel());
         GameObject car = GameObject.FindGameObjectWithTag("Car"); 
         body.isKinematic = true;
         transform.DOMove(car.transform.position, carReachDuration);
