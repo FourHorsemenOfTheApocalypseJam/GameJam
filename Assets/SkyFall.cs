@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class SkyFall : MonoBehaviour
 {
@@ -9,14 +10,26 @@ public class SkyFall : MonoBehaviour
     [SerializeField] float gravity = -10f;
     [SerializeField] float xSpeed = 5f;
     [SerializeField] float zSpeed = 5f;
+    [SerializeField] float carReachDuration = 2f;
+    [SerializeField] GameObject[] materials;
+    [SerializeField] Rigidbody ragdollBody;
+    GameObject bone;
     float xInput = 0f;
     float yInput = 0f;
     float horizontalAcceleration = 10f;
     float minAcceptableVelocity = 0.05f;
-    // Start is called before the first frame update
-    void Start()
+    PlayerFallingAnimatorController animController;
+    Animator animator;
+    bool hasLanded = false;
+    bool isDead = false;
+
+    void Awake()
     {
         body = GetComponent<Rigidbody>();
+        animController = GetComponent<PlayerFallingAnimatorController>();
+        animator = GetComponent<Animator>();
+        bone = transform.GetChild(0).gameObject;
+        SetRagdollStatus(false);
     }
     private void Update()
     {
@@ -34,6 +47,20 @@ public class SkyFall : MonoBehaviour
         PlayerFallMovement();
     }
 
+    private void SetRagdollStatus(bool status)
+    {
+        BoxCollider collider = transform.GetChild(1).GetComponent<BoxCollider>();
+        collider.enabled = !status;
+        animator.enabled = !status;
+        body.freezeRotation = !status;
+        body.useGravity = status;
+        bone.SetActive(status);
+        foreach (GameObject element in materials)
+        {
+            element.SetActive(!status);
+        }
+    }
+
     private void FallSpeedControl()
     {
         if (body.velocity.y < maxVertSpeed)
@@ -48,6 +75,7 @@ public class SkyFall : MonoBehaviour
 
     private void PlayerFallMovement()
     {
+        if (hasLanded || isDead) { return; }
         if (Mathf.Abs(xInput) >= 0.1f)
         {
             if (Mathf.Abs(body.velocity.x) < Mathf.Abs(xSpeed))
@@ -108,5 +136,42 @@ public class SkyFall : MonoBehaviour
                 body.AddForce(new Vector3(0f /*/ 10f*/, 0f, horizontalAcceleration), ForceMode.Acceleration);
             }
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "OpenParachuteArea" && !isDead)
+        {
+            maxVertSpeed = maxVertSpeed / 5f;
+            animController.OpenParachute();
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (!hasLanded && collision.gameObject.name == "Ground" && !isDead)
+        {
+            StartCoroutine(GetInCar());
+        }
+        else if (collision.gameObject.tag == "Bird")
+        {
+            Debug.Log("asd");
+            isDead = true;
+            GameObject.FindGameObjectWithTag("MainCamera").GetComponent<PlayerFollowCamera>().IsDead = true;
+            SetRagdollStatus(true);
+            ragdollBody.AddForce(0f, 100f, 0f,ForceMode.VelocityChange);
+            ragdollBody.angularVelocity = new Vector3(20f, 30f, 8f);
+        }
+    }
+
+    IEnumerator GetInCar()
+    {
+        animController.Land();
+        GameObject car = GameObject.FindGameObjectWithTag("Car");
+        body.isKinematic = true;
+        transform.DOMove(car.transform.position, carReachDuration);
+        transform.DOLookAt(car.transform.position, 1f);
+        yield return new WaitForSeconds(carReachDuration-3f);
+        gameObject.SetActive(false);
     }
 }

@@ -14,6 +14,12 @@ public class UIManager : MonoBehaviour
     LevelBar levelBar;
     bool gamePause = false;
     bool gamePlaying = false;
+    GameObject player;
+
+    private void Awake()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+    }
 
     //private void Start()
     //{
@@ -24,6 +30,7 @@ public class UIManager : MonoBehaviour
     //    pauseMenu.SetActive(false);
     //    winnerScreen.SetActive(false);
     //    gameOverScreen.SetActive(false);
+    //    player.SetActive(false);
     //}
 
     private void Update()
@@ -59,7 +66,7 @@ public class UIManager : MonoBehaviour
         pauseMenu.SetActive(false);
         winnerScreen.SetActive(false);
         gameOverScreen.SetActive(false);
-
+        player.SetActive(false);
     }
 
     public void StartButton()
