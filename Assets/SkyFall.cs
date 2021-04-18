@@ -171,6 +171,7 @@ public class SkyFall : MonoBehaviour
             SetRagdollStatus(true);
             ragdollBody.AddForce(0f, 100f, 0f,ForceMode.VelocityChange);
             ragdollBody.angularVelocity = new Vector3(20f, 30f, 8f);
+            StartCoroutine(GameOver());
             
         }
     }
