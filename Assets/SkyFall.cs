@@ -12,6 +12,7 @@ public class SkyFall : MonoBehaviour
     [SerializeField] float zSpeed = 5f;
     [SerializeField] float carReachDuration = 2f;
     [SerializeField] GameObject[] materials;
+    [SerializeField] Rigidbody ragdollBody;
     GameObject bone;
     float xInput = 0f;
     float yInput = 0f;
@@ -150,8 +151,10 @@ public class SkyFall : MonoBehaviour
         {
             Debug.Log("asd");
             isDead = true;
+            GameObject.FindGameObjectWithTag("MainCamera").GetComponent<PlayerFollowCamera>().IsDead = true;
             SetRagdollStatus(true);
-            body.AddForce(0f, 5f, 0f);
+            ragdollBody.AddForce(0f, 100f, 0f,ForceMode.VelocityChange);
+            ragdollBody.angularVelocity = new Vector3(20f, 30f, 8f);
         }
     }
 

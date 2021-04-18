@@ -6,10 +6,25 @@ public enum PlayerState { None , Falling , Driving , RocketFlying}
 public class PlayerFollowCamera : MonoBehaviour
 {
     private PlayerState currentPlayerState;
+    [SerializeField] GameObject ragdoll;
     Vector3 playerPos;
-    SkyFall player;
+    GameObject player;
+    GameObject airplane;
     [SerializeField] Vector2 zBoundaries = new Vector2(1.5f, 9f);
     [SerializeField] Vector3 fallScreenBoundaries = new Vector3(5.5f, 7f, 1f);
+    bool isDead = false;
+    public bool IsDead
+    {
+        get
+        {
+            return isDead;
+        }
+        set
+        {
+            isDead = value;
+            player = ragdoll;
+        }
+    }
     //[SerializeField] Vector3 fallCameraLookAt = new Vector3(0f, 0f, 0f);
     public PlayerState CurrentPlayerState
     {
@@ -20,17 +35,22 @@ public class PlayerFollowCamera : MonoBehaviour
         set
         {
             currentPlayerState = value;
+            if (currentPlayerState == PlayerState.Falling)
+            {
+                transform.eulerAngles = new Vector3(60f, 0f, 0f);
+            }
         }
     }
 
     private void Awake()
     {
-        player = FindObjectOfType<SkyFall>();
+        player = GameObject.FindGameObjectWithTag("Player");
+        airplane = GameObject.Find("Airplane");
     }
 
     void Start()
     {
-        currentPlayerState = PlayerState.Falling;
+        currentPlayerState = PlayerState.None;
     }
 
     void LateUpdate()
@@ -43,7 +63,7 @@ public class PlayerFollowCamera : MonoBehaviour
     {
         if (currentPlayerState == PlayerState.None)
         {
-            return;
+            transform.position = new Vector3(transform.position.x, transform.position.y, airplane.transform.position.z);
         }
         else if (currentPlayerState == PlayerState.Falling)
         {
