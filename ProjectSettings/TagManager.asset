@@ -11,6 +11,8 @@ TagManager:
   - Collider
   - Bomb
   - LastCamPos
+  - Mars
+  - Shuttle
   layers:
   - Default
   - TransparentFX
