@@ -13,10 +13,7 @@ public class CarTrigger : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKey(KeyCode.Space))
-        {
-            particle.Play();
-        }
+        
     }
     private void OnTriggerEnter(Collider other)
     {

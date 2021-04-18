@@ -38,7 +38,7 @@ public class MotorController : MonoBehaviour
 
             if (Input.GetAxis("Vertical") > 0)
             {
-                player.Move(new Vector3(horizontalMove * 2, 0, verticalMove) * (speed * Time.deltaTime));
+                player.Move(new Vector3(horizontalMove * 1, 0, verticalMove) * (speed * Time.deltaTime));
             }
             if (Input.GetKey(KeyCode.D))
             {
