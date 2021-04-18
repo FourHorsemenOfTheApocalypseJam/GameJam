@@ -22,6 +22,8 @@ public class SkyFall : MonoBehaviour
     Animator animator;
     bool hasLanded = false;
     bool isDead = false;
+    AudioSource parasutSFX;
+   
 
     void Awake()
     {
@@ -30,14 +32,10 @@ public class SkyFall : MonoBehaviour
         animator = GetComponent<Animator>();
         bone = transform.GetChild(0).gameObject;
         SetRagdollStatus(false);
+        parasutSFX = GetComponentInChildren<AudioSource>();
+        
     }
-    private void Update()
-    {
-        if (true)
-        {
-
-        }
-    }
+   
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -144,7 +142,13 @@ public class SkyFall : MonoBehaviour
         {
             maxVertSpeed = maxVertSpeed / 5f;
             animController.OpenParachute();
+            StartCoroutine(ParasutSFX());
         }
+    }
+    IEnumerator ParasutSFX()
+    {
+        yield return new WaitForSecondsRealtime(1.2f);
+        parasutSFX.Play();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -152,6 +156,7 @@ public class SkyFall : MonoBehaviour
         if (!hasLanded && collision.gameObject.name == "Ground" && !isDead)
         {
             StartCoroutine(GetInCar());
+            
         }
         else if (collision.gameObject.tag == "Bird")
         {
@@ -168,10 +173,12 @@ public class SkyFall : MonoBehaviour
     {
         animController.Land();
         GameObject car = GameObject.FindGameObjectWithTag("Car");
+        AudioSource carSFX = FindObjectOfType<AudioSource>();
         body.isKinematic = true;
         transform.DOMove(car.transform.position, carReachDuration);
         transform.DOLookAt(car.transform.position, 1f);
         yield return new WaitForSeconds(carReachDuration-3f);
         gameObject.SetActive(false);
+        carSFX.Play();
     }
 }
