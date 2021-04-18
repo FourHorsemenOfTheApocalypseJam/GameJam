@@ -18,7 +18,13 @@ public class SkyFall : MonoBehaviour
     {
         body = GetComponent<Rigidbody>();
     }
+    private void Update()
+    {
+        if (true)
+        {
 
+        }
+    }
     // Update is called once per frame
     void FixedUpdate()
     {
