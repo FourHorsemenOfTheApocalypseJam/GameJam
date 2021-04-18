@@ -113,12 +113,10 @@ public class UIManager : MonoBehaviour
     public void NextLevelButton()
     {
         Debug.Log("Next Level!");
-        //SceneManager.LoadScene(1);
+        SceneManager.LoadScene(1);
         inGameScreen.SetActive(true);
         winnerScreen.SetActive(false);
         TimeControl.instance.BeginGame();
-        levelBar.SetLevelText();
-        gamePlaying = false;
     }
     public void RestartButton()
     {
@@ -133,5 +131,10 @@ public class UIManager : MonoBehaviour
         TimeControl.instance.GameOver();
         Time.timeScale = 0f;
         gamePlaying = false;
+    }
+    public void NextLevel()
+    {
+        inGameScreen.SetActive(false);
+        winnerScreen.SetActive(true);
     }
 }

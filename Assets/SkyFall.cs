@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 public class SkyFall : MonoBehaviour
 {
@@ -23,6 +24,7 @@ public class SkyFall : MonoBehaviour
     bool hasLanded = false;
     bool isDead = false;
     AudioSource parasutSFX;
+    UIManager uIManager;
    
 
     void Awake()
@@ -33,6 +35,7 @@ public class SkyFall : MonoBehaviour
         bone = transform.GetChild(0).gameObject;
         SetRagdollStatus(false);
         parasutSFX = GetComponentInChildren<AudioSource>();
+        uIManager = FindObjectOfType<UIManager>();
         
     }
    
@@ -43,6 +46,7 @@ public class SkyFall : MonoBehaviour
         yInput = Input.GetAxis("Vertical");
         FallSpeedControl();
         PlayerFallMovement();
+        NextLevel();
     }
 
     private void SetRagdollStatus(bool status)
@@ -156,7 +160,8 @@ public class SkyFall : MonoBehaviour
         if (!hasLanded && collision.gameObject.name == "Ground" && !isDead)
         {
             StartCoroutine(GetInCar());
-            
+
+
         }
         else if (collision.gameObject.tag == "Bird")
         {
@@ -166,19 +171,43 @@ public class SkyFall : MonoBehaviour
             SetRagdollStatus(true);
             ragdollBody.AddForce(0f, 100f, 0f,ForceMode.VelocityChange);
             ragdollBody.angularVelocity = new Vector3(20f, 30f, 8f);
+            
         }
     }
 
     IEnumerator GetInCar()
     {
         animController.Land();
-        GameObject car = GameObject.FindGameObjectWithTag("Car");
-        AudioSource carSFX = FindObjectOfType<AudioSource>();
+        GameObject car = GameObject.FindGameObjectWithTag("Car"); 
         body.isKinematic = true;
         transform.DOMove(car.transform.position, carReachDuration);
         transform.DOLookAt(car.transform.position, 1f);
         yield return new WaitForSeconds(carReachDuration-3f);
-        gameObject.SetActive(false);
-        carSFX.Play();
+        gameObject.SetActive(false);        
+        
     }
+   
+    IEnumerator GameOver()
+    {
+        yield return new WaitForSecondsRealtime(3f);
+        uIManager.GameOver();
+    }
+    void NextLevel()
+    {
+        GameObject car = GameObject.FindGameObjectWithTag("Car");
+        float dist = Vector3.Distance(car.transform.position, transform.position);
+        if (dist<10f)
+        {
+            StartCoroutine(NexxtLevel());
+        }
+        Debug.Log("Distance to other: " + dist);
+    }
+    IEnumerator NexxtLevel()
+    {
+        yield return new WaitForSecondsRealtime(10f);
+        SceneManager.LoadScene(1);
+    }
+
+
 }
+
