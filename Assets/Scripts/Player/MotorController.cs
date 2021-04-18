@@ -6,36 +6,74 @@ public class MotorController : MonoBehaviour
 {
     float horizontalMove;
     float verticalMove;
-    CharacterController playerController;
+    CharacterController player;
     public float speed;
-    public float move;
+    bool gameover = false;
+    UIManager uiManager;
+    Rigidbody rigidbody;
 
     private void Start()
     {
-        playerController = GetComponent<CharacterController>();        
+        player = GetComponent<CharacterController>();    
+        
+    }
+    private void Awake()
+    {
+        rigidbody = GetComponent<Rigidbody>();
+        uiManager = FindObjectOfType<UIManager>();
     }
     private void Update()
     {
         horizontalMove = Input.GetAxis("Horizontal");
         verticalMove = Input.GetAxis("Vertical");
-        playerController.transform.Rotate(0, 0, 0);
-       
+        
+        
         
     }
     private void FixedUpdate()
     {
-        playerController.Move(new Vector3(horizontalMove*1, 0, verticalMove)*(speed*Time.deltaTime));
-
-        if (Input.GetAxis("Horizontal") < 0)
+        if (!gameover)
         {
-            Debug.Log("sol");
-            playerController.transform.Rotate(0, 0, move * Time.deltaTime);            
+            player.Move(new Vector3(horizontalMove * 1, 0, 5) * (3 * Time.deltaTime));
+
+            if (Input.GetAxis("Vertical") > 0)
+            {
+                player.Move(new Vector3(horizontalMove * 1, 0, verticalMove) * (speed * Time.deltaTime));
+            }
+            if (Input.GetKey(KeyCode.D))
+            {
+                transform.rotation = Quaternion.Euler(0, 20, 0);
+            }
+            if (Input.GetKeyUp(KeyCode.D))
+            {
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+            }
+            if (Input.GetKey(KeyCode.A))
+            {
+                transform.rotation = Quaternion.Euler(0, -20, 0);
+            }
+            if (Input.GetKeyUp(KeyCode.A))
+            {
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+            }
+
         }
-
-        if (Input.GetAxis("Horizontal") > 0)
-        {
-            Debug.Log("sağ");
-            playerController.transform.Rotate(0, 0, -move * Time.deltaTime);
+        
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Bomb"))
+        {    
+            gameover = true;
+            StartCoroutine(GameOver());
         }
     }
+
+    IEnumerator GameOver()
+    {
+        yield return new WaitForSecondsRealtime(3.5f);
+        uiManager.GameOver();
+
+    }
+
 }

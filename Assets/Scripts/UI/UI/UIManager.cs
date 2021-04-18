@@ -50,6 +50,17 @@ public class UIManager : MonoBehaviour
         //    GameOver();
         //}   
     }
+    private void Start()
+    {
+        Time.timeScale = 0;
+        mainMenu.SetActive(true);
+        inGameScreen.SetActive(false);
+        settingMenu.SetActive(false);
+        pauseMenu.SetActive(false);
+        winnerScreen.SetActive(false);
+        gameOverScreen.SetActive(false);
+
+    }
 
     public void StartButton()
     {
