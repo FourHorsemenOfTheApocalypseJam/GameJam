@@ -185,8 +185,9 @@ public class SkyFall : MonoBehaviour
         transform.DOMove(car.transform.position, carReachDuration);
         transform.DOLookAt(car.transform.position, 1f);
         yield return new WaitForSeconds(carReachDuration-3f);
-        gameObject.SetActive(false);        
-        
+        gameObject.SetActive(false);
+        SceneManager.LoadScene(1);
+
     }
    
     IEnumerator GameOver()
